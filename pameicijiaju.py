@@ -13,13 +13,17 @@ from lxml import etree
 import csv
 
 # url = 'http://www.shuoshuokong.com/juzi/index_66.html'
-for n in range(1, 66):
+fenlei = 'shanggan'
+page = 69
+filename = '伤感'
+
+for n in range(1, page+1):
     data = None
     try:
         if n == 1:
-            data = requests.get(url='http://www.shuoshuokong.com/juzi/index.html', params={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'})
+            data = requests.get(url='http://www.shuoshuokong.com/%s/index.html' % fenlei, params={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'})
         else:
-            data = requests.get(url='http://www.shuoshuokong.com/juzi/index_%s.html'%str(n), params={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'})
+            data = requests.get(url='http://www.shuoshuokong.com/%s/index_%s.html' % (fenlei, str(n)), params={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36'})
         data.encoding = 'utf8'
         xpath_html = etree.HTML(data.text)
         img_xpath = '//ul[@class="g-list-box"]/li//img/@src'
@@ -32,19 +36,19 @@ for n in range(1, 66):
         content = xpath_html.xpath(content_url)
         img_name_list = [i.split('/')[-1] for i in img]
         for i in range(10):
-            with open('demo1.csv', 'a', newline='', encoding='utf8') as w:
+            with open('static/images/%s/%s.csv' % (fenlei, filename), 'a', newline='', encoding='utf8') as w:
                 resp = requests.get(url='http://www.shuoshuokong.com' + content[i], params={'User-Agent': 'Mozilla/5.0'})
                 resp.encoding = 'utf8'
                 e = etree.HTML(resp.text)
                 juzi = e.xpath('//div[@class="g-detail-font"]/p/text()')
-                print(juzi)
+                # print(juzi)
                 csv_w = csv.writer(w, delimiter='#')
                 csv_w.writerow((title[i],' '.join(juzi), img_name_list[i]))
-        # for i in range(10):
-        #     url = 'http://www.shuoshuokong.com' + img[i]
-        #     img_data = requests.get(url=url, params={'User-Agent': 'Mozilla/5.0'})
-        #     with open('pachongshuju/%s'%img_name_list[i], 'wb') as w:
-        #         w.write(img_data.content)
+        for i in range(10):
+            url = 'http://www.shuoshuokong.com' + img[i]
+            img_data = requests.get(url=url, params={'User-Agent': 'Mozilla/5.0'})
+            with open('static/images/%s/%s' % (fenlei, img_name_list[i]), 'wb') as w:
+                w.write(img_data.content)
     except Exception as e:
         print(e)
     time.sleep(random.randint(1, 20) * 0.1)

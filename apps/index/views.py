@@ -52,18 +52,24 @@ class AddTopic(APIView):
     renderer_classes = [JSONRenderer]
 
     def get(self, request):
-        s = 'demo1.csv'
+        s = 'static/images/aiqing/爱情.csv'
         data = csv.reader(open(s, 'r', encoding='utf8'))
         try:
             for index, line in enumerate(data):
                 lists = ''.join(line).split('#')
+                if not lists[1]:
+                    break
                 topic_obj = Topic()
                 topic_obj.title = lists[0]
                 topic_obj.content = lists[1]
-                topic_obj.image = 'static/images/meicijiaju' + lists[2]
+                topic_obj.image = 'static/images/aiqing/' + lists[2]
+                topic_obj.tag = 4
                 topic_obj.save()
-                print('第%s行写入数据库成功'%index)
+                print('第%s行写入数据库成功' % index)
         except Exception as e:
             import datetime
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), e)
+        # topic_obj = Topic.objects.all().last()
+        # print([topic_obj.title, topic_obj.content, topic_obj.image, topic_obj.tag])
+        # return Response([topic_obj.title, topic_obj.content, topic_obj.image, topic_obj.tag])
         return Response('OK')
