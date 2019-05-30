@@ -44,7 +44,7 @@ class Topic(models.Model):
 
 
 class Reply(models.Model):
-    topic = models.OneToOneField(Topic, verbose_name='被回复的话题', on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, related_name='topics', verbose_name='被回复的话题', on_delete=models.CASCADE)
     message = models.TextField(verbose_name='回复内容')
     time = models.DateTimeField(auto_now_add=True, verbose_name='回复时间')
     users = models.ManyToManyField(User, related_name='replys', verbose_name='用户组')

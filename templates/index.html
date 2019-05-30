@@ -16,67 +16,39 @@
 </head>
 
 <body>
-  <header id="header">
-    <!--menu begin-->
-    <div class="menu">
-      <nav class="nav" id="topnav">
-        <h1 class="logo"><a href="index.html">有话说</a></h1>
-        <li><a href="index.html">网站首页</a> </li>
-        <li><a href="list.html">话类</a>
-          <ul class="sub-nav">
-            <li><a href="list.html">Python</a></li>
-            <li><a href="list.html">python Web</a></li>
-            <li><a href="list.html">爬虫</a></li>
-            <li><a href="list.html">人工智能</a></li>
-            <li><a href="list.html">JS实例索引</a></li>
-{#              {% for name in content_type %}#}
-{#                  <script>console.log("{{ name.cate_name }}")</script>#}
-{#                  <li><a href="{{ name.url }}">{{ name.cate_name }}</a></li>#}
-{#              {% endfor %}#}
-          </ul>
-        </li>
-        <li><a href="/index/photo/">我的相册</a>
-        </li>
-        <li><a href="/index/time/">时间轴</a> </li>
-        <li><a href="/index/gbook/">留言</a> </li>
-        <li><a href="/index/about/">关于我</a> </li>
-        <li><a href="/index/release/">发表博客</a></li>
-      </nav>
-    </div>
-  {%if not data.user %}
-    <a href="/u/login/" id="login" target="_self">登录</a>
-    <a href="/u/register/" id="register" target="_top">注册</a>
-  {% else %}
-      <a href="/u/info/" id="login" target="_self">{{ data.user }}</a>
-      <a href="/u/logout/" id="register" target="_self">注销</a>
-  {% endif %}
-    <!--menu end-->
-    <!--mnav begin-->
-{#    <div id="mnav">#}
-{#      <h2><a href="index.html" class="mlogo">有话说</a><span class="navicon"></span></h2>#}
-{#      <dl class="list_dl">#}
-{#        <dt class="list_dt"> <a href="index.html">网站首页</a> </dt>#}
-{#        <dt class="list_dt"> <a href="#">文章列表</a> </dt>#}
-{#        <dd class="list_dd">#}
-{#          <ul>#}
-{#            <li><a href="list.html">Python</a></li>#}
-{#            <li><a href="list.html">python Web</a></li>#}
-{#            <li><a href="list.html">爬虫</a></li>#}
-{#            <li><a href="list.html">人工智能</a></li>#}
-{#            <li><a href="list.html">JS实例索引</a></li>#}
-{##}
+{% extends 'head.html' %}
+{#<header id="header">#}
+{#    <!--menu begin-->#}
+{#    <div class="menu">#}
+{#        <nav class="nav" id="topnav">#}
+{#            <h1 class="logo"><a href="index.html">有话说</a></h1>#}
+{#            <li><a href="index.html">网站首页</a> </li>#}
+{#            <li><a href="list.html">话类</a>#}
+{#                <ul class="sub-nav">#}
+{#                    <li><a href="list.html">Python</a></li>#}
+{#                    <li><a href="list.html">python Web</a></li>#}
+{#                    <li><a href="list.html">爬虫</a></li>#}
+{#                    <li><a href="list.html">人工智能</a></li>#}
+{#                    <li><a href="list.html">JS实例索引</a></li>#}
 {#          </ul>#}
-{#        </dd>#}
-{#        <dt class="list_dt"> <a href="photo.html">我的相册</a> </dt>#}
-{#        <dt class="list_dt"> <a href="time.html">时间轴</a> </dt>#}
-{#        <dt class="list_dt"> <a href="gbook.html">留言</a> </dt>#}
-{#        <dt class="list_dt"> <a href="about.html">关于我</a> </dt>#}
-{#      </dl>#}
+{#        </li>#}
+{#        <li><a href="/index/photo/">我的相册</a>#}
+{#        </li>#}
+{#        <li><a href="/index/time/">时间轴</a> </li>#}
+{#        <li><a href="/index/gbook/">留言</a> </li>#}
+{#        <li><a href="/index/about/">关于我</a> </li>#}
+{#        <li><a href="/index/release/">发表博客</a></li>#}
+{#      </nav>#}
 {#    </div>#}
-    <!--mnav end-->
-
-
-  </header>
+{#  {%if not data.user %}#}
+{#    <a href="/u/login/" id="login" target="_self">登录</a>#}
+{#    <a href="/u/register/" id="register" target="_top">注册</a>#}
+{#  {% else %}#}
+{#      <a href="/u/info/" id="login" target="_self">{{ data.user }}</a>#}
+{#      <a href="/u/logout/" id="register" target="_self">注销</a>#}
+{#  {% endif %}#}
+{#  </header>#}
+    {% block content %}
   <article>
     <!--banner begin-->
     <div class="picsbox">
@@ -87,7 +59,7 @@
 {#          <li class="slide"><a href="info.html" target="_blank"><img src="/static/images/banner02.jpg"><span class="imginfo">干货|如何优雅的在手机上进行Python编程</span></a></li>#}
 {#          <li class="slide"><a href="info.html" target="_blank"><img src="/static/images/banner03.jpg"><span class="imginfo">python-win10下使用定时任务执行程序</span></a></li>#}
             {% for field in data.topic_title %}
-                 <li class="slide"><a href={{ field.url }} target="_blank"><img src={{ field.image }}><span class="imginfo">{{ field.content }}</span></a></li>
+                 <li class="slide"><a href="/topicinfo/?id={{ field.id }}" target="_blank"><img src={{ field.image }}><span class="imginfo">{{ field.content }}</span></a></li>
             {% endfor %}
           <div class="fader_controls">
             <div class="page prev" data-target="prev">&lsaquo;</div>
@@ -108,7 +80,7 @@
 {#            <span>python</span>#}
 {#          </a> </li>#}
           {% for field in data.topic_left %}
-                <li> <a href={{ field.url }} target="_blank"> <i><img src={{ field.image }}></i>
+                <li> <a href="/topicinfo/?id={{ field.id }}" target="_blank"> <i><img src={{ field.image }}></i>
                 <h2>{{ field.content }}</h2>
                 <span>{{ field.title }}</span>
               </a> </li>
@@ -135,8 +107,9 @@
 {#      </div>#}
         {% for con in data.topic_body %}
             <div class="blogs" data-scroll-reveal="enter bottom over 1s">
-        <h3 class="blogtitle"><a href="info.html" target="_blank">{{ con.title }} </a></h3>
-        <span class="blogpic"><a href="info.html" title=""><img src="{{ con.image }}" alt=""></a></span>
+        <h3 class="blogtitle"><a href="/topicinfo/?id={{ con.id }}" target="_blank">{{ con.title }} </a></h3>
+        <span class="blogpic"><a href="/topicinfo/?id={{ con.id }}" title=""><img src="{{ con.image }}" alt=""></a></span>
+
         <p class="blogtext">{{ con.content }}</p>
         <div class="bloginfo">
           <ul>
@@ -438,7 +411,7 @@
 {#          </li>#}
             {% for field in data.topic_tebie %}
                 <li> <i><img src={{ field.image }}></i>
-                    <p>{{ field.content }}<span><a href="#">阅读</a></span></p>
+                    <p>{{ field.content }}<span><a href="/topicinfo/?id={{ field.id }}">阅读</a></span></p>
                 </li>
             {% endfor %}
         </ul>
@@ -525,6 +498,7 @@
     <p>Design by <a href=# target="_blank">有话说</a> <a href="#">备XXXXXXXXX号-1</a></p>
   </footer>
   <a href="#" class="cd-top">Top</a>
+{% endblock %}
 </body>
 
 </html>

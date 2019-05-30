@@ -10,5 +10,9 @@ from .views import *
 
 urlpatterns = [
     path('', IndexView.as_view()),
-    path('addtopic/', AddTopic.as_view())
+    path('addtopic/', AddTopic.as_view()),
+    path('topicinfo/', TopicInfo.as_view()),
+    path('reply/', ReplyAdd.as_view()),
+    path('aixin/', AixinView.as_view()),
+    path('ceshi/', CeShi.as_view()),
 ]
