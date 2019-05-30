@@ -14,5 +14,6 @@ urlpatterns = [
     path('topicinfo/', TopicInfo.as_view()),
     path('reply/', ReplyAdd.as_view()),
     path('aixin/', AixinView.as_view()),
+    path('list/', FenleiView.as_view()),
     path('ceshi/', CeShi.as_view()),
 ]

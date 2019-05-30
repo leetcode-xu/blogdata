@@ -164,7 +164,7 @@
 
                                 <ol class="commentlist">
                                     <li>
-                                        <div class="top"><a href='#'  class='url'>{{ father.users.0.username }}</a>
+                                        <div class="top"><a href='javascript:void(0);'  class='url' value="{{ father.users.0.id }}">{{ father.users.0.username }}</a>
                                             <span class="time"> @
                                                 <a href="#" title="">{{ father.time }}</a>
                                                 <a href="#" class="replyComment">回复</a>
@@ -180,9 +180,9 @@
                                     <li>
                                         <div class="reply">
                                             <div class="top">
-                                                <a href="#" class="url">{{ child.users.0.username }}</a>
+                                                <a href="javascript:void(0);" class="url" value="{{ child.users.0.id }}">{{ child.users.0.username }}</a>
                                                 <span class="time">
-                                                    @ {{ child.users.1.username }}&nbsp;&nbsp;<a href="#" title="">{{ child.time }}</a>
+                                                    @<a href="javascript:void(0);" class="url" value="{{ child.users.1.id }}">{{ child.users.1.username }}</a> &nbsp;&nbsp;<a href="#" title="">{{ child.time }}</a>
                                                 </span>
                                             </div>
                                             <div><img alt="" src="{{ child.user.0.avatar }}" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
@@ -270,7 +270,7 @@
 
                     {% for tebie in data.tebie %}
                         <li> <i><img src="{{ tebie.image }}"></i>
-                            <p>{{ tebie.title }} <span><a href="#">阅读</a></span> </p>
+                            <p>{{ tebie.title }} <span><a href="/topicinfo/?id={{ tebie.id }}">阅读</a></span> </p>
                         </li>
                     {% endfor %}
 {#					<li> <i><img src="/static/images/b04.jpg"></i>#}
@@ -285,12 +285,12 @@
 				<h2 class="hometitle">推荐文章</h2>
                     <ul class="tjpic">
                         <i><img src="{{ data.tuijian0.image }}"></i>
-                        <p><a href="#">{{ data.tuijian0.title }}</a></p>
+                        <p><a href="/topicinfo/?id={{ data.tuijian0.id }}">{{ data.tuijian0.title }}</a></p>
                     </ul>
 				<ul class="sidenews">
                     {% for tuijian in data.tuijian  %}
                         <li> <i><img src="{{ tuijian.image }}"></i>
-                            <p><a href="#">{{ tuijian.title }}</a></p>
+                            <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
                             <span>{{ tuijian.create_time }}</span>
                         </li>
                     {% endfor %}
@@ -312,12 +312,12 @@
 				<h2 class="hometitle">点击排行</h2>
 				<ul class="tjpic">
 					<i><img src="{{ data.dianji0.image }}"></i>
-					<p><a href="#">{{ data.dianji0.title }}</a></p>
+					<p><a href="/topicinfo/?id={{ data.dianji0.id }}">{{ data.dianji0.title }}</a></p>
 				</ul>
 				<ul class="sidenews">
                     {% for dianji in data.dianji %}
                         <li> <i><img src="{{ dianji.image }}"></i>
-                            <p><a href="#">{{ dianji.title }}</a></p>
+                            <p><a href="/topicinfo/?id={{ dianji.id }}">{{ dianji.title }}</a></p>
                             <span>{{ dianji.create_time }}</span>
                         </li>
                     {% endfor %}
@@ -409,6 +409,11 @@
                 }
             });
         })
+
+        $('.url').click(function () {
+            editor.txt.text('@' + $(this).html() + '&nbsp;');
+
+        });
 
 	</script>
     {% endblock %}

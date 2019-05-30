@@ -47,7 +47,7 @@ class IndexView(APIView):
             respon['data']['user'] = None
         else:
             respon['data']['user'] = request.user.username
-        topic = Topic.objects.all()
+        topic = Topic.objects.all().order_by('id')
         page_list = PageTopic().paginate_queryset(topic, self.request, view=self)
         topic_ser = TopicSerializer(instance=page_list, many=True)
         respon['data'].update({'topic_title': topic_ser.data[:3]})
@@ -102,6 +102,7 @@ class Reply_Topic:
             for two in reply_two:
                 if one['users'][0] in two['users']:
                     one['two'].append(two)
+                    reply_two.remove(two)
 
 
 class TopicInfo(APIView):
@@ -133,7 +134,7 @@ class TopicInfo(APIView):
                 respon['data']['next'] = ts.data
             obj = Reply_Topic(int(id))
             respon['data']['one'], respon['data']['num'] = obj.reply_one, len(obj.reply_ser)
-            topics = Topic.objects.all()
+            topics = Topic.objects.all().order_by('read_num')
             topics = PageTopic().paginate_queryset(topics, request, view=self)
             topics = TopicSerializer(instance=topics, many=True)
             respon['data']['dianji0'] = topics.data[0]
@@ -161,12 +162,14 @@ class ReplyAdd(APIView):
             topic_obj = Topic.objects.get(id=topic_id)
             message = request.POST.get('article', '')
             user_two = message.split()[0]
+            print(user_two,'sdf'*7)
             if user_two[0] == '@':
-                user_two = User.objects.get(username=user_two[1:])
+                user_two = User.objects.filter(username=user_two[1:]).first()
+                print(user_two.username)
             else:
                 user_two = None
             reply_obj = Reply()
-            reply_obj.message = message
+            reply_obj.message = ' '.join(message.split()[1:])
             reply_obj.topic = topic_obj
             reply_obj.save()
             reply_obj.users.add(request.user)
@@ -193,6 +196,13 @@ class AixinView(APIView):
                 respon['data']['aixin'] = topic_obj.aixin
                 respon['code'] = 10000
         return Response(respon)
+
+
+class FenleiView(APIView):
+
+    def get(self,request):
+        return Response(template_name='list.html')
+
 
 class CeShi(APIView):
     renderer_classes = [JSONRenderer]
