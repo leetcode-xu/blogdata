@@ -52,4 +52,4 @@ class Reply(models.Model):
     class Meta:
         verbose_name = '回复'
         verbose_name_plural = verbose_name
-        db_table = 'Reply'
+        db_table = 'reply'
