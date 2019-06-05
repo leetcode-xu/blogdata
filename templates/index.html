@@ -117,7 +117,7 @@
             <li class="lmname"><a href="info.html">学无止境</a></li>
             <li class="timer">{{ con.create_time }} </li>
             <li class="view"><span>{{ con.read_num }}</span>已阅读</li>
-            <li class="like">{{ con.aixin }}</li>
+            <li class="like" value="{{ con.id }}">{{ con.aixin }}</li>
           </ul>
         </div>
             </div>
@@ -443,28 +443,20 @@
       </div>
       <div class="tuijian">
         <h2 class="hometitle">点击排行</h2>
-        <ul class="tjpic">
-          <i><img src="/static/images/toppic01.jpg"></i>
-          <p><a href="#">Python语言在人工智能(AI)中的优势</a></p>
-        </ul>
-        <ul class="sidenews">
-          <li> <i><img src="/static/images/toppic01.jpg"></i>
-            <p><a href="#">精通Python编程——Python深入浅出教程</a></p>
-            <span>2018-05-13</span>
-          </li>
-          <li> <i><img src="/static/images/toppic02.jpg"></i>
-            <p><a href="#">人生苦短 Python当歌</a></p>
-            <span>2018-05-13</span>
-          </li>
-          <li> <i><img src="/static/images/v1.jpg"></i>
-            <p><a href="#">Python学习笔记：虚拟环境和包</a></p>
-            <span>2018-05-13</span>
-          </li>
-          <li> <i><img src="/static/images/v2.jpg"></i>
-            <p><a href="#">python中打开TXT文件报错</a></p>
-            <span>2018-05-13</span>
-          </li>
-        </ul>
+          {% for tuijian in data.tuijian0 %}
+              <ul class="tjpic">
+                  <i><img src={{ tuijian.image }}></i>
+                  <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
+              </ul>
+          {% endfor %}
+          <ul class="sidenews">
+              {% for tuijian in data.tuijian %}
+                  <li> <i><img src={{ tuijian.image }}></i>
+                      <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
+                      <span>{{ tuijian.create_time }}</span>
+                  </li>
+              {% endfor %}
+                 </ul>
       </div>
 {#      <div class="cloud">#}
 {#        <h2 class="hometitle">标签云</h2>#}
@@ -482,22 +474,39 @@
 {#          <li><a href="#" target="_blank">人工智能改变世界</a></li>#}
 {#        </ul>#}
 {#      </div>#}
-      <div class="guanzhu" id="follow-us">
-        <h2 class="hometitle">关注我们 么哒！</h2>
-        <ul>
-          <li class="sina"><a href="#" target="_blank"><span>微信公众号</span>XX</a></li>
-          <li class="tencent"><a href="#" target="_blank"><span>微信咨询</span>XXX</a></li>
-          <li class="qq"><a href="#" target="_blank"><span>QQ号</span>XXXXXX</a></li>
-          <li class="email"><a href="#" target="_blank"><span>邮箱帐号</span>XX</a></li>
-          <li class="wxgzh"><a href="#" target="_blank"><span>咨询电话</span>xxxxxxxxxxx</a></li>
-        </ul>
-      </div>
+{#      <div class="guanzhu" id="follow-us">#}
+{#        <h2 class="hometitle">关注我们 么哒！</h2>#}
+{#        <ul>#}
+{#          <li class="sina"><a href="#" target="_blank"><span>微信公众号</span>XX</a></li>#}
+{#          <li class="tencent"><a href="#" target="_blank"><span>微信咨询</span>XXX</a></li>#}
+{#          <li class="qq"><a href="#" target="_blank"><span>QQ号</span>XXXXXX</a></li>#}
+{#          <li class="email"><a href="#" target="_blank"><span>邮箱帐号</span>XX</a></li>#}
+{#          <li class="wxgzh"><a href="#" target="_blank"><span>咨询电话</span>xxxxxxxxxxx</a></li>#}
+{#        </ul>#}
+{#      </div>#}
     </div>
   </article>
   <footer id="footer">
     <p>Design by <a href=# target="_blank">有话说</a> <a href="#">备XXXXXXXXX号-1</a></p>
   </footer>
   <a href="#" class="cd-top">Top</a>
+
+  <script>
+  $('.like').click(function () {
+        $.ajax({
+           url:'/aixin/',
+           type:'POST',
+           context: $(this),
+           data:{'id':$(this).val(), 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+           dataType:'json',
+           success:function (data) {
+                    {#console.log($(this)+'sdf');#}
+                    console.log(data['data']['aixin']);
+                    $(this).html(data['data']['aixin']);
+                }
+        })
+});
+  </script>
 {% endblock %}
 </body>
 

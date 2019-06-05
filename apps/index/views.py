@@ -7,6 +7,8 @@ from rest_framework.pagination import PageNumberPagination
 
 from .models import *
 from rest_framework.renderers import JSONRenderer
+import random
+import re
 
 import csv
 # Create your views here.
@@ -14,6 +16,21 @@ import csv
 
 class TopicSerializer(ModelSerializer):
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = Topic
+        depth = 2
+        fields = '__all__'
+
+
+class TopicIndexSerializer(ModelSerializer):
+    create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        con = obj.content
+        contents = re.split(r'[。?！!?;;]?\s*\d+\.', con)
+        return contents
 
     class Meta:
         model = Topic
@@ -54,6 +71,9 @@ class IndexView(APIView):
         respon['data'].update({'topic_left': topic_ser.data[3:5]})
         respon['data'].update({'topic_tebie': topic_ser.data[5:8]})
         respon['data'].update({'topic_body': topic_ser.data[8:21]})
+        tuijian_list = TopicSerializer(instance=topic, many=True)
+        respon['data']['tuijian0'] = random.choices(tuijian_list.data)
+        respon['data']['tuijian'] = random.sample(tuijian_list.data, 4)
         return Response(respon, template_name='index.html')
 
 
@@ -202,6 +222,49 @@ class FenleiView(APIView):
 
     def get(self,request):
         return Response(template_name='list.html')
+
+
+# url: /about/
+class AboutView(APIView):
+    # renderer_classes = [JSONRenderer]
+
+    def get(self, request):
+        return Response(template_name='about.html')
+
+
+#  url: /footer/
+class FooterView(APIView):
+
+    def get(self, request):
+        return Response(template_name='footer.html')
+
+
+#  url: /gbook/
+class GbookView(APIView):
+
+    def get(self, request):
+        return Response(template_name='gbook.html')
+
+
+#url: /photo/
+class PhotoView(APIView):
+
+    def get(self, request):
+        return Response(template_name='photo.html')
+
+
+#url: /time/
+class TimeView(APIView):
+
+    def get(self, request):
+        return Response(template_name='time.html')
+
+
+# url: /release/
+class ReleaseView(APIView):
+
+    def get(self, request):
+        return Response(template_name='release.html')
 
 
 class CeShi(APIView):

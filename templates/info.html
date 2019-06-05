@@ -92,7 +92,14 @@
 					</ul>
 				</div>
 				<div class="tags"><a href="#" target="_blank">个人博客</a> &nbsp; <a href="#" target="_blank">小世界</a></div>
-				<div class="news_about"><strong>内容</strong>{{ data.topic.content }}</div>
+				<div class="news_about">
+                    {% for hang in data.topic.content %}
+                        {% if not loop.first %}
+                            <p>{{ loop.index }}{{ hang }}</p>
+                        {% endif %}
+                        <br/>
+                    {% endfor %}
+                </div>
 {#				<div class="news_con">#}
 {#					From：https://www.oschina.net/question/5189_4306<br>#}
 {#					<br>#}

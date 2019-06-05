@@ -9,6 +9,7 @@ class User(AbstractUser):
     home_address = models.CharField(max_length=200, blank=True, null=True, verbose_name='个人博客')
     phone = models.CharField(max_length=11, blank=True, null=True, verbose_name='电话')
     avatar = models.ImageField(upload_to='static/images/uploads/avatar/', default='static/images/uploads/avatar/default.jpg')
+    person_tag = models.CharField(max_length=350, verbose_name='个新签名', blank=True, null=True)
 
     class Meta:
         verbose_name = '用户'

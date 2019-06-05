@@ -16,4 +16,10 @@ urlpatterns = [
     path('aixin/', AixinView.as_view()),
     path('list/', FenleiView.as_view()),
     path('ceshi/', CeShi.as_view()),
+    path('about/', AboutView.as_view()),
+    path('footer/', FooterView.as_view()),
+    path('gbook/', GbookView.as_view()),
+    path('time/', TimeView.as_view()),
+    path('photo/', PhotoView.as_view()),
+    path('release/', ReleaseView.as_view()),
 ]
