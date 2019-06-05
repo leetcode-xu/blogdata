@@ -28,6 +28,7 @@ class TopicIndexSerializer(ModelSerializer):
     content = serializers.SerializerMethodField()
 
     def get_content(self, obj):
+        print(obj, 'r'*40)
         con = obj.content
         contents = re.split(r'[。?！!?;;]?\s*\d+\.', con)
         return contents
@@ -52,7 +53,13 @@ class PageTopic(PageNumberPagination):
     max_page_size = 21
     page_query_param = 'page'
     page_size_query_param = 'size'
-    ordering = 'read_num'
+
+
+class TenPageTopic(PageNumberPagination):
+    page_size_query_param = 'size'
+    page_size = 10
+    max_page_size = 20
+    page_query_param = 'page'
 
 
 class IndexView(APIView):
@@ -65,15 +72,19 @@ class IndexView(APIView):
         else:
             respon['data']['user'] = request.user.username
         topic = Topic.objects.all().order_by('id')
+        topic_read_num = Topic.objects.all().order_by('read_num')
         page_list = PageTopic().paginate_queryset(topic, self.request, view=self)
         topic_ser = TopicSerializer(instance=page_list, many=True)
         respon['data'].update({'topic_title': topic_ser.data[:3]})
         respon['data'].update({'topic_left': topic_ser.data[3:5]})
         respon['data'].update({'topic_tebie': topic_ser.data[5:8]})
-        respon['data'].update({'topic_body': topic_ser.data[8:21]})
-        tuijian_list = TopicSerializer(instance=topic, many=True)
-        respon['data']['tuijian0'] = random.choices(tuijian_list.data)
-        respon['data']['tuijian'] = random.sample(tuijian_list.data, 4)
+        respon['data'].update({'topic_body': topic_ser.data[8:18]})
+        tenpagetopic = TenPageTopic().paginate_queryset(topic_read_num, self.request, view=self)
+        tuijian_list = TopicSerializer(instance=tenpagetopic, many=True)
+        respon['data']['tuijian0'] = tuijian_list.data[0]
+        respon['data']['tuijian'] = tuijian_list.data[1:5]
+        respon['data']['dianji0'] = tuijian_list.data[5]
+        respon['data']['dianji'] = tuijian_list.data[6:10]
         return Response(respon, template_name='index.html')
 
 
@@ -134,7 +145,7 @@ class TopicInfo(APIView):
             topic_obj = Topic.objects.get(id=id)
             topic_obj.read_num += 1
             topic_obj.save()
-            ts = TopicSerializer(instance=topic_obj, many=False)
+            ts = TopicIndexSerializer(instance=topic_obj, many=False)
             if request.user.is_anonymous:
                 respon['data']['user'] = False
             else:

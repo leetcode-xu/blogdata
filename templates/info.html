@@ -94,9 +94,7 @@
 				<div class="tags"><a href="#" target="_blank">个人博客</a> &nbsp; <a href="#" target="_blank">小世界</a></div>
 				<div class="news_about">
                     {% for hang in data.topic.content %}
-                        {% if not loop.first %}
-                            <p>{{ loop.index }}{{ hang }}</p>
-                        {% endif %}
+                            <p>{{ hang }}</p>
                         <br/>
                     {% endfor %}
                 </div>
