@@ -22,4 +22,5 @@ urlpatterns = [
     path('',include('index.urls')),
     path('xadmin/', xadmin.site.urls),
     path('u/', include('account.urls')),
+    path('m/', include('message.urls')),
 ]

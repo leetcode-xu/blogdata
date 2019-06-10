@@ -85,7 +85,7 @@
 				<div class="bloginfo">
 					<ul>
 						<li class="author"><a href="#">{{ data.topic.user.username }}</a></li>
-						<li class="lmname"><a href="#">{{ data.topic.blog_type.type }}</a></li>
+						<li class="lmname"><a href="#">{{ data.topic.tag }}</a></li>
 						<li class="timer">{{ data.topic.create_time}}</li>
 						<li class="view">{{ data.topic.read_num }}</li>
 						<li class="like">{{ data.topic.aixin }}</li>
@@ -95,6 +95,7 @@
 				<div class="news_about">
                     {% for hang in data.topic.content %}
                             <p>{{ hang }}</p>
+                            <script>alert({{ forloop.counter }})</script>
                         <br/>
                     {% endfor %}
                 </div>
@@ -274,9 +275,11 @@
                 <ul>
 
                     {% for tebie in data.tebie %}
-                        <li> <i><img src="{{ tebie.image }}"></i>
-                            <p>{{ tebie.title }} <span><a href="/topicinfo/?id={{ tebie.id }}">阅读</a></span> </p>
-                        </li>
+                        <a href="/topicinfo/?id={{ tebie.id }}">
+                            <li> <i><img src={{ tebie.image }}></i>
+                                <p>{{ tebie.title }}<span>阅读</span></p>
+                            </li>
+                        </a>
                     {% endfor %}
 {#					<li> <i><img src="/static/images/b04.jpg"></i>#}
 {#						<p>5.20 我想对你说 <span><a href="#">阅读</a></span></p>#}
@@ -288,16 +291,20 @@
 			</div>
 			<div class="tuijian">
 				<h2 class="hometitle">推荐文章</h2>
+                    <a href="/topicinfo/?id={{ data.tuijian0.id }}">
                     <ul class="tjpic">
                         <i><img src="{{ data.tuijian0.image }}"></i>
                         <p><a href="/topicinfo/?id={{ data.tuijian0.id }}">{{ data.tuijian0.title }}</a></p>
                     </ul>
+                    </a>
 				<ul class="sidenews">
                     {% for tuijian in data.tuijian  %}
+                        <a href="/topicinfo/?id={{ tuijian.id }}">
                         <li> <i><img src="{{ tuijian.image }}"></i>
                             <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
                             <span>{{ tuijian.create_time }}</span>
                         </li>
+                        </a>
                     {% endfor %}
 {#					<li> <i><img src="/static/images/toppic02.jpg"></i>#}
 {#						<p><a href="#">给我模板PSD源文件，我给你设计HTML！</a></p>#}
@@ -315,16 +322,20 @@
 			</div>
 			<div class="tuijian">
 				<h2 class="hometitle">点击排行</h2>
+            <a href="/topicinfo/?id={{ data.dianji0.id }}">
 				<ul class="tjpic">
 					<i><img src="{{ data.dianji0.image }}"></i>
 					<p><a href="/topicinfo/?id={{ data.dianji0.id }}">{{ data.dianji0.title }}</a></p>
 				</ul>
+            </a>
 				<ul class="sidenews">
                     {% for dianji in data.dianji %}
+                        <a href="/topicinfo/?id={{ dianji.id }}">
                         <li> <i><img src="{{ dianji.image }}"></i>
                             <p><a href="/topicinfo/?id={{ dianji.id }}">{{ dianji.title }}</a></p>
                             <span>{{ dianji.create_time }}</span>
                         </li>
+                        </a>
                     {% endfor %}
 {#					<li> <i><img src="/static/images/toppic02.jpg"></i>#}
 {#						<p><a href="#">给我模板PSD源文件，我给你设计HTML！</a></p>#}

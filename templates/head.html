@@ -28,11 +28,11 @@
         <li><a href="#">话类</a>
           <ul class="sub-nav">
 {#              /list.html#}
-            <li><a href="/meici/">美词佳句</a></li>
-            <li><a href="/jingdian/">经典说说</a></li>
-            <li><a href="/gaoxiao/">搞笑说说</a></li>
-            <li><a href="/aiqing/">爱情说说</a></li>
-            <li><a href="/shanggan/">伤感说说</a></li>
+            <li><a href="/list/?type=meici">美词佳句</a></li>
+            <li><a href="/list/?type=jingdian">经典说说</a></li>
+            <li><a href="/list/?type=gaoxiao">搞笑说说</a></li>
+            <li><a href="/list/?type=aiqing">爱情说说</a></li>
+            <li><a href="/list/?type=shanggan">伤感说说</a></li>
 {#              {% for name in content_type %}#}
 {#                  <script>console.log("{{ name.cate_name }}")</script>#}
 {#                  <li><a href="{{ name.url }}">{{ name.cate_name }}</a></li>#}
@@ -42,7 +42,7 @@
         <li><a href="/photo/">我的相册</a>
         </li>
         <li><a href="/time/">时间轴</a> </li>
-        <li><a href="/gbook/">留言</a> </li>
+        <li><a href="/m/gbook/">留言</a> </li>
         <li><a href="/about/">关于我</a> </li>
         <li><a href="/release/">发表博客</a></li>
       </nav>

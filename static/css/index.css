@@ -71,8 +71,8 @@
 .zhuanti p a { color: #fff; }
 .zhuanti span { width: 80px; margin: 10px auto; background: transparent; font-size: 12px; border: 1px solid #FFF; border-radius: 40px; padding: 4px 0; color: #FFF; display: block; clear: both; -webkit-transition: all .3s ease; -moz-transition: all .3s ease; -ms-transition: all .3s ease; -o-transition: all .3s ease; transition: all .3s ease; }
 .zhuanti li:hover img { opacity: 0.6 }
-.zhuanti li:hover span { background: #FFF; }
-.zhuanti li:hover span a { color: #333 }
+.zhuanti li:hover span { background: rgba(165, 165, 165, 0.35); }
+.zhuanti li:hover a span  { color: #333 }
 /*tjpic */
 .tjpic { width: 100%; height: 170px; background: #000; margin-bottom: 20px; overflow: hidden; display: block; clear: both; position: relative; }
 .tjpic img { width: 100%; min-height: 170px; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; -ms-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; }

@@ -113,8 +113,8 @@
         <p class="blogtext">{{ con.content }}</p>
         <div class="bloginfo">
           <ul>
-            <li class="author"><a href="{{ con.user_id.home_address }}">{{ con.user_id.uname }}</a></li>
-            <li class="lmname"><a href="info.html">学无止境</a></li>
+            <li class="author"><a href="{{ con.user.home_address }}">{{ con.user.username }}</a></li>
+            <li class="lmname"><a href="#">{{ con.tag }}</a></li>
             <li class="timer">{{ con.create_time }} </li>
             <li class="view"><span>{{ con.read_num }}</span>已阅读</li>
             <li class="like" value="{{ con.id }}">{{ con.aixin }}</li>
@@ -410,39 +410,48 @@
 {#            <p>Python之if判断语句与while和for循环<span><a href="#">阅读</a></span></p>#}
 {#          </li>#}
             {% for field in data.topic_tebie %}
+                <a href="/topicinfo/?id={{ field.id }}">
                 <li> <i><img src={{ field.image }}></i>
-                    <p>{{ field.content }}<span><a href="/topicinfo/?id={{ field.id }}">阅读</a></span></p>
-                </li>
+                    <p>{{ field.title }}<span>阅读</span></p>
+                </li></a>
             {% endfor %}
         </ul>
       </div>
       <div class="tuijian">
         <h2 class="hometitle">推荐文章</h2>
-        <ul class="tjpic">
-          <i><img src="{{ data.tuijian0.image }}"></i>
-          <p><a href="/topicinfo/?id={{ data.tuijian0.id }}">{{ data.tuijian0.title }}</a></p>
-        </ul>
+          <a href="/topicinfo/?id={{ data.tuijian0.id }}">
+            <ul class="tjpic">
+              <i><img src="{{ data.tuijian0.image }}"></i>
+              <p>{{ data.tuijian0.title }}</p>
+            </ul>
+          </a>
         <ul class="sidenews">
             {% for tuijian in data.tuijian %}
-              <li> <i><img src="{{ tuijian.image }}"></i>
-                <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
-                <span>{{ tuijian.create_time }}</span>
-              </li>
+                <a href="/topicinfo/?id={{ tuijian.id }}">
+                  <li> <i><img src="{{ tuijian.image }}"></i>
+                    <p>{{ tuijian.title }}</p>
+                    <span>{{ tuijian.create_time }}</span>
+                  </li>
+                </a>
             {% endfor %}
         </ul>
       </div>
       <div class="tuijian">
         <h2 class="hometitle">点击排行</h2>
-              <ul class="tjpic">
-                  <i><img src={{ data.dianji0.image }}></i>
-                  <p><a href="/topicinfo/?id={{ data.dianji0.id }}">{{ data.dianji0.title }}</a></p>
-              </ul>
+          <a href="/topicinfo/?id={{ data.dianji0.id }}">
+                  <ul class="tjpic">
+                      <i><img src={{ data.dianji0.image }}></i>
+                      <p>{{ data.dianji0.title }}</p>
+                  </ul>
+          </a>
           <ul class="sidenews">
               {% for dianji in data.dianji %}
-                  <li> <i><img src={{ dianji.image }}></i>
-                      <p><a href="/topicinfo/?id={{ dianji.id }}">{{ dianji.title }}</a></p>
-                      <span>{{ dianji.create_time }}</span>
-                  </li>
+                  <a href="/topicinfo/?id={{ dianji.id }}">
+                      <li> <i><img src={{ dianji.image }}></i>
+                          <p>{{ dianji.title }}</p>
+                          <span>{{ dianji.create_time }}</span>
+                      </li>
+                  </a>
               {% endfor %}
                  </ul>
       </div>

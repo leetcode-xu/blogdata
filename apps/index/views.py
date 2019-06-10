@@ -16,6 +16,10 @@ import csv
 
 class TopicSerializer(ModelSerializer):
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    tag = serializers.SerializerMethodField()
+
+    def get_tag(self, obj):
+        return obj.get_tag_display()
 
     class Meta:
         model = Topic
@@ -23,12 +27,17 @@ class TopicSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class Tagser(serializers.ChoiceField):
+    def to_representation(self, value):
+        return self._choices[value]
+
+
 class TopicIndexSerializer(ModelSerializer):
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     content = serializers.SerializerMethodField()
+    tag = Tagser(choices=[(1, '美词佳句'),(2, '经典说说'), (3, '搞笑说说'), (4, '爱情说说'), (5, '伤感说说')])
 
     def get_content(self, obj):
-        print(obj, 'r'*40)
         con = obj.content
         contents = re.split(r'[。?！!?;;]?\s*\d+\.', con)
         return contents
@@ -49,8 +58,8 @@ class ReplySer(ModelSerializer):
 
 
 class PageTopic(PageNumberPagination):
-    page_size = 21
-    max_page_size = 21
+    page_size = 25
+    max_page_size = 30
     page_query_param = 'page'
     page_size_query_param = 'size'
 
@@ -229,10 +238,42 @@ class AixinView(APIView):
         return Response(respon)
 
 
+# url:/list/?type=
 class FenleiView(APIView):
 
-    def get(self,request):
-        return Response(template_name='list.html')
+    def get(self, request):
+        try:
+            self.respon = {'message': 'success', 'data': {}, 'code': 10000}
+            if request.user.is_anonymous:
+                self.respon['data']['user'] = None
+            else:
+                self.respon['data']['user'] = request.user.username
+            self.type = request.GET.get('type', 'meici')
+            if self.type == 'meici':
+                self.topics = Topic.objects.filter(tag=1).all()
+            elif self.type == 'jingdian':
+                self.topics = Topic.objects.filter(tag=2).all()
+            elif self.type == 'gaoxiao':
+                self.topics = Topic.objects.filter(tag=3).all()
+            elif self.type == 'aiqing':
+                self.topics = Topic.objects.filter(tag=4).all()
+            elif self.type == 'shanggan':
+                self.topics = Topic.objects.filter(tag=5).all()
+            else:
+                pass
+            page_list = PageTopic().paginate_queryset(self.topics.order_by('read_num'), self.request, view=self)
+            topic_ser = TopicSerializer(instance=page_list, many=True)
+            self.respon['data'].update({'tebie': topic_ser.data[:3]})
+            self.respon['data'].update({'tuijian0': topic_ser.data[3]})
+            self.respon['data'].update({'tuijian': topic_ser.data[4:8]})
+            self.respon['data'].update({'dianji0': topic_ser.data[8]})
+            self.respon['data'].update({'dianji': topic_ser.data[9:13]})
+            self.respon['data'].update({'body': topic_ser.data[14:23]})
+        except Exception as e:
+            self.respon['message'] = 'fail'
+            self.respon['data']['error'] = str(e)
+            self.respon['code'] = 10020
+        return Response(self.respon, template_name='list.html')
 
 
 # url: /about/
