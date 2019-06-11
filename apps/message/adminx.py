@@ -10,8 +10,8 @@ import xadmin
 
 
 class MessageXadmin:
-    list_display = ['users', 'content', 'create_time']
-    search_fields = ['users']
+    list_display = ['user1','user2', 'content', 'create_time']
+    search_fields = ['user1', 'user2']
     list_filter = ['create_time']
 
 

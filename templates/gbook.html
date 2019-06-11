@@ -34,105 +34,63 @@
 					<div class="entry">
 						有才，有情，有趣，不俗，不媚，有傲骨，无傲气！
 					</div>
-					<span class="tags">
-						<a href="#" rel="tag">个人博客</a>
-					</span>
-					<div class="info">
-						Address: <a href="#" rel="bookmark" title="住在手机里的朋友">18837636</a>
-					</div>
+{#					<span class="tags">#}
+{#						<a href="#" rel="tag">个人博客</a>#}
+{#					</span>#}
+{#					<div class="info">#}
+{#						Address: <a href="#" rel="bookmark" title="住在手机里的朋友">18837636</a>#}
+{#					</div>#}
 					<div class="commentstitle">
 {#						<h3 id="comments">到现在<span class="commentsnumber">有30条留言</span></h3>#}
 					</div>
 					<ol class="commentlist">
 						<!--先遍历父级评论-->
-						<li>
-							<div class="top">
-								<a href='#' class='url'>qudaodao</a>
-								<span class="time"> @
-									<a href="#" title="">2018-09-10 9:38</a>
-									<a href="#" class="replyComment">回复</a>
-								</span>
-							</div>
-							<div>
-								<img alt='' src='images/02.jpg' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' />
-							</div>
-							<div class="body">
-								<p>写的很好，长得很帅</p>
-							</div>
-						</li>
-						<!--如果父级评论有子评论，就把子评论输出-->
-						<li>
-							<div class="reply">
-								<div class="top">
-									<a href="#"  class="url">pipilu</a>
-									<span class="time">
-										@ <a href="#" title="">2018-09-10 9:38</a>
-									</span>
-								</div>
-								<div><img alt="" src="/static/images/01.jpg" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
-								<div class="body">楼上说的对</div>
-							</div>
-						</li>
-					</ol>
-					<ol class="commentlist">
-						<!--先遍历父级评论-->
-						<li>
-							<div class="top"><a href='#'  class='url'>qudaodao</a><span class="time"> @
-									<a href="#" title="">2018-09-10 9:38</a><a href="#" class="replyComment">回复</a></span></div>
-							<div><img alt='' src='images/01.jpg' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' /></div>
-							<div class="body">
-								<p>真知灼见</p>
-							</div>
-						</li>
-						<!--如果父级评论有子评论，就把子评论输出-->
-						<li >
-							<div class="reply">
-								<div class="top"><a href="#" class="url">pipilu</a><span class="time">
-										@ <a href="#" title="">2018-09-10 9:38</a></span></div>
-								<div><img alt="" src="/static/images/02.jpg" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
-								<div class="body">楼上说的对</div>
-							</div>
-						</li>
-						<li >
-							<div class="reply">
-								<div class="top">
-									<a href="#" class="url">pipilu</a>
-									<span class="time">
-										@ <a href="#" title="">2018-09-10 9:38</a>
-									</span>
-								</div>
-								<div><img alt="" src="/static/images/03.jpg" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
-								<div class="body">楼上说的对</div>
-							</div>
-						</li>
-					</ol>
-					<ol class="commentlist">
-						<li>
-							<div class="top"><a href='#' rel='external nofollow' class='url'>qudaodao</a><span class="time"> @
-									<a href="#" title="">2018-09-10 9:38</a><a href="#" class="replyComment">回复</a></span></div>
-							<div><img alt='' src='images/04.jpg' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' /></div>
-							<div class="body">
-								<p>没毛病老铁</p>
-							</div>
-						</li>
-						<!--如果父级评论有子评论，就把子评论输出-->
-						<li >
-							<div class="reply">
-								<div class="top"><a href="#" class="url">pipilu</a><span class="time">
-										@ <a href="#" title="">2018-09-10 9:38</a></span></div>
-								<div><img alt="" src="/static/images/05.jpg" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
-								<div class="body">楼上说的对</div>
-							</div>
-						</li>
-					</ol>
+                        {% for one in data.one %}
+                            <div class="root" value="{{ one.id }}">
+                                <li>
+                                    <div class="top" value="{{ one.id }}">
+                                        <a href='#submit' class='one' value="{{ one.user1.id }}">{{ one.user1.username }}</a>
+                                        <span class="time"> @
+                                            <a href="#" title="">{{ one.create_time }}</a>
+                                            <a href="#" class="replyComment">回复</a>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <img alt='' src='{{ one.user1.avatar }}' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' />
+                                    </div>
+                                    <div class="body">
+                                        <p>{{ one.content }}</p>
+                                    </div>
+                                </li>
+                                <!--如果父级评论有子评论，就把子评论输出-->
+                                {% for two in one.root_comment %}
+                                    <li class="parent">
+                                        <div class="reply">
+                                            <div class="top" value="{{ two.id }}">
+                                                <a href="#submit"  class="two" value="{{ two.user1.id }}">{{ two.user1.username }}</a>
+                                                <span class="time">
+                                                    @{{ two.user2.username }}&nbsp;<a href="#" title="">{{ two.create_time }}</a>
+                                                </span>
+                                            </div>
+                                            <div><img alt="" src="{{ two.user1.avatar }}" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
+                                            <div class="body">{{ two.content }}</div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </div>
+					{% endfor %}
+                    </ol>
 					<div id="commentform">
 						<h3 id="respond">在这添加你的留言！</h3>
-						<form action="#" method="post">
-						<dir id="editor"></dir>
+						<form action="/m/gbook/" method="post">
+                            {% csrf_token %}
+						<div id="editor"></div>
 						<br>
 						<p>
-							<input id="id_article" name="article" type="hidden" value="1">
-							<input name="submit" type="submit" id="submit" tabindex="5" value="提交" class="button" />
+							<input id="id_article" name="article" type="hidden" value="">
+							<input id="root" name="root" type="hidden" value="">
+							<input id="user2" name="user2" type="hidden" value="">
+							<input name="submit" type="submit" id="submit" tabindex="5" value="提交" class="button" onclick="return getcontent();"/>
 						</p>
 						</form>
 					</div>
@@ -163,33 +121,6 @@
 						<p><a href="#">Python之if判断语句与while和for循环</a></p>
 						<span>2018-05-13</span>
 					  </li>
-					</ul>
-				</div>
-				<div class="cloud">
-					<h2 class="hometitle">标签云</h2>
-					<ul>
-						<a href="#">陌上花开</a> 
-						<a href="#">校园生活</a> 
-						<a href="#">html5</a> 
-						<a href="#">SumSung</a> 
-						<a href="#">青春</a>
-						<a href="#">温暖</a> 
-						<a href="#">阳光</a> 
-						<a href="#">三星</a>
-						<a href="#">索尼</a> 
-						<a href="#">华维荣耀</a> 
-						<a href="#">三星</a>
-						<a href="#">索尼</a>
-					</ul>
-				</div>
-				<div class="guanzhu" id="follow-us">
-					<h2 class="hometitle">关注我们 么么哒！</h2>
-					<ul>
-						<li class="sina"><a href="#" target="_blank"><span>微信公众号</span>达内</a></li>
-						<li class="tencent"><a href="#" target="_blank"><span>微信咨询</span>XXX</a></li>
-						<li class="qq"><a href="#" target="_blank"><span>QQ号</span>XXXXXX</a></li>
-						<li class="email"><a href="#" target="_blank"><span>邮箱帐号</span>tedu.cn</a></li>
-						<li class="wxgzh"><a href="#" target="_blank"><span>咨询电话</span>xxxxxxxxxxx</a></li>
 					</ul>
 				</div>
 			</div>
@@ -226,7 +157,29 @@
 			'undo', // 撤销
 			'redo' // 重复
 		]
-		editor.create()
+		editor.create();
+        function getcontent() {
+            if (!editor.txt.text()){
+                alert('请先填写内容!');
+                return false
+        }
+            else{
+                $("#id_article").val(editor.txt.text());
+            }
+        }
+        $(".two").click(function () {
+            $("#user2").val($(this).attr("value"));
+            var root = $(this).parents(".root").attr('value');
+            $("#root").val(root);
+            editor.txt.text('@' + $(this).html() + '&nbsp;');
+
+        });
+        $(".one").click(function () {
+            editor.txt.text('@' + $(this).html() + '&nbsp;');
+            $("#user2").val($(this).attr("value"));
+            var root1 = $(this).parent(".top").attr('value');
+            $("#root").val(root1);
+        });
 	</script>
     {% endblock %}
 
