@@ -323,7 +323,9 @@ class PhotoView(APIView):
             respon['data']['user'] = None
         else:
             respon['data']['user'] = request.user.username
-        return Response(respon, template_name='yanhua.html')
+        html = ['lizi.html', 'yanhua.html', 'yanhuaqiang.html']
+        html = random.choice(html)
+        return Response(respon, template_name=html)
 
 
 #url: /time/
