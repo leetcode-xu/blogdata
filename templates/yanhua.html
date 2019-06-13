@@ -1,112 +1,37 @@
 <!doctype html>
 {% extends 'head.html' %}
-<html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
 
-<head>
-	<meta charset="utf-8">
-	<title>首页_有话说</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="images/bitbug_favicon.ico" type="image/x-icon" />
-	<link href="css/base.css" rel="stylesheet">
-	<link href="css/index.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/comments.css">
-	<link href="css/m.css" rel="stylesheet">
-	<script src="js/jquery.min.js" type="text/javascript"></script>
-	<script src="js/jquery.easyfader.min.js"></script>
-	<script src="js/scrollReveal.js"></script>
-	<script src="js/wangEditor.js"></script>
-	<script src="js/common.js"></script>
-	<!--[if lt IE 9]>
-	<script src="js/modernizr.js"></script>
-	<![endif]-->
-    {% block css %}
-         <style>
-            body {
-                background: rgba(1, 1, 1, 0.85);
-                margin: 0;
-                overflow: inherit;
-            }
 
-            canvas {
-                cursor: crosshair;
-                display: block;
-                position: fixed;
-                z-index: 0;
-            }
-        </style>
-    {% endblock %}
-</head>
+/* basic styles for black background and crosshair cursor */
+{% block css %}
+    <style>
+body {
+	background: #000;
+	margin: 0;
+    overflow: inherit;
+}
 
-<body>
-	{% block content %}
-    <canvas id="canvas">Canvas is not supported in your browser.</canvas>    
-	<div class="pagebg re"></div>
-	<div class="container">
-		<h1 class="t_nav"><span style="color: #fff;">不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。 </span>
-			<p class="n1">表发博客</p>
-		</h1>
-		<div class="infosbox">
-			<form action="#" method="post">
-				<br>
-				<p>
-					<input class="comment_input" id="author" maxlength="50" name="author" required="required" size="25" tabindex="1"
-					 type="text">
-					<label for="author">文章标题</label>
-				</p>
-				<br>
-				<p class="classification">
-					<input name="list" type="radio" value="1">个人博客
-					<input name="list" type="radio" value="2">公开博客
-					<input name="list" type="radio" value="3">其他博客
-				</p>
+canvas {
+	cursor: crosshair;
+	display: block;
+}
+    </style>
+{% endblock %}
 
-				<br>
-
-				<div id="editor" style="margin-left: 12px;margin-right: 12px"></div>
-				<br>
-				<p>
-					<input id="id_article" name="article" type="hidden" value="1">
-					<input name="submit" type="submit" id="submit" tabindex="5" value="提交" class="button" />
-				</p>
-				<br>
-			</form>
-
-		</div>
-		<!--release end-->
-		<div class="sidebar">
-			<div class="tuijian">
-				<h2 class="hometitle">点击排行</h2>
-				<ul class="tjpic">
-                    <a href="/topicinfo/?id={{ data.tuijian0.id }}">
-                    <i><img src="{{ data.tuijian0.image }}"></i>
-                    <p><a href="/topicinfo/?id={{ data.tuijian0.id }}">{{ data.tuijian0.title }}</a></p>
-                    </a>
-				</ul>
-				<ul class="sidenews">
-                    {% for tuijian in data.tuijian %}
-                        <a href="/topicinfo/?id={{ tuijian.id }}">
-                        <li> <i><img src="{{ tuijian.image }}"></i>
-                            <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
-                            <span>{{ tuijian.create_time }}</span>
-                        </li>
-                        </a>
-                    {% endfor %}
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<footer>
-		<p>Design by <a href=# target="_blank">有话说</a> <a href="#">备XXXXXXXX号-1</a></p>
-	</footer>
-	<a href="#" class="cd-top">Top</a>
-	<script>
-		var E = window.wangEditor
-		var editor = new E('#editor')
-		// 或者 var editor = new E( document.getElementById('editor') )
-		editor.create()
-	</script>
-    <script>
+ </head>
+ <body>
+ {% block content %}
+ <!-- setup our canvas element -->
+<canvas id="canvas">Canvas is not supported in your browser.</canvas>
+<script>
 // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
 // not supported in all browsers though and sometimes needs a prefix, so we need a shim
 window.requestAnimFrame = ( function() {
@@ -381,8 +306,7 @@ canvas.addEventListener( 'mouseup', function( e ) {
 window.onload = loop;
 
 
-</script>    
+</script>
 {% endblock %}
-</body>
-
+ </body>
 </html>

@@ -101,26 +101,21 @@
 				<div class="tuijian">
 					<h2 class="hometitle">推荐文章</h2>
 					<ul class="tjpic">
-					  <i><img src="/static/images/toppic01.jpg"></i>
-					  <p><a href="#">python中打开TXT文件报错</a></p>
+                      <a href="/topicinfo/?id={{ data.tuijian0.id }}">
+                          <i><img src="{{ data.tuijian0.image }}"></i>
+                          <p><a href="/topicinfo/?id={{ data.tuijian0.id }}">{{ data.tuijian0.title }}</a></p>
+                      </a>
 					</ul>
 					<ul class="sidenews">
-					  <li> <i><img src="/static/images/toppic01.jpg"></i>
-						<p><a href="#">python学习网址以及笔记</a></p>
-						<span>2018-05-13</span>
-					  </li>
-					  <li> <i><img src="/static/images/toppic02.jpg"></i>
-						<p><a href="#">CentOS7下python开发环境配置</a></p>
-						<span>2018-05-13</span>
-					  </li>
-					  <li> <i><img src="/static/images/v1.jpg"></i>
-						<p><a href="#">python初步实现word2vec</a></p>
-						<span>2018-05-13</span>
-					  </li>
-					  <li> <i><img src="/static/images/v2.jpg"></i>
-						<p><a href="#">Python之if判断语句与while和for循环</a></p>
-						<span>2018-05-13</span>
-					  </li>
+					  {% for tuijian in data.tuijian %}
+                        <a href="/topicinfo/?id={{ tuijian.id }}">
+                            <li> <i><img src="{{ tuijian.image }}"></i>
+                                <p><a href="/topicinfo/?id={{ tuijian.id }}">{{ tuijian.title }}</a></p>
+                                <span>{{ tuijian.create_time }}</span>
+                            </li>
+                        </a>
+                      {% endfor %}
+
 					</ul>
 				</div>
 			</div>

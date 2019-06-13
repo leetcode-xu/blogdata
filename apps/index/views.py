@@ -221,6 +221,7 @@ class ReplyAdd(APIView):
             respon['code'] = 10014
         return redirect('/topicinfo/?id=%s'%topic_id)
 
+
 class AixinView(APIView):
     renderer_classes = [JSONRenderer,]
 
@@ -281,42 +282,77 @@ class AboutView(APIView):
     # renderer_classes = [JSONRenderer]
 
     def get(self, request):
-        return Response(template_name='about.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        return Response(respon, template_name='square.html')
 
 
 #  url: /footer/
 class FooterView(APIView):
 
     def get(self, request):
-        return Response(template_name='footer.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        return Response(respon, template_name='footer.html')
 
 
 #  url: /gbook/
 class GbookView(APIView):
 
     def get(self, request):
-        return Response(template_name='gbook.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        return Response(respon, template_name='gbook.html')
 
 
 #url: /photo/
 class PhotoView(APIView):
 
     def get(self, request):
-        return Response(template_name='photo.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        return Response(respon, template_name='yanhua.html')
 
 
 #url: /time/
 class TimeView(APIView):
 
     def get(self, request):
-        return Response(template_name='time.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        return Response(respon, template_name='yanhuaqiang.html')
 
 
 # url: /release/
 class ReleaseView(APIView):
 
     def get(self, request):
-        return Response(template_name='release.html')
+        respon = {'message': 'success', 'data': {}, 'code': 10000}
+        if request.user.is_anonymous:
+            respon['data']['user'] = None
+        else:
+            respon['data']['user'] = request.user.username
+        topics = Topic.objects.all().order_by('read_num')
+        topics = PageTopic().paginate_queryset(topics, request, view=self)
+        topics = TopicSerializer(instance=topics, many=True)
+        respon['data']['tuijian0'] = topics.data[0]
+        respon['data']['tuijian'] = topics.data[1:5]
+        return Response(respon, template_name='release.html')
 
 
 class CeShi(APIView):

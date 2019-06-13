@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
-from rest_framework.authentication import BaseAuthentication
-from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from rest_framework.pagination import PageNumberPagination
 from account.models import User
 from .models import Message
+from index.models import Topic
 # Create your views here.
 
 # class AuthUser(BaseAuthentication):
@@ -37,6 +36,22 @@ class MsgSer(ModelSerializer):
         model = Message
         depth = 2
         fields = '__all__'
+
+
+class TopicSer(ModelSerializer):
+    create_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+
+    class Meta:
+        fields = "__all__"
+        model = Topic
+        depth = 2
+
+
+class TopicPage(PageNumberPagination):
+    max_page_size = 10
+    page_size_query_param = 'size'
+    page_size = 5
+    page_query_param = 'page'
 
 
 class MsgPage(PageNumberPagination):
@@ -123,4 +138,9 @@ class GbookView(APIView):
             print(len(respon['data']['one']))
             # respon['data']['two'] = tree[1]
         # return Response(respon)
+        topics = Topic.objects.all().order_by("-read_num")
+        topics_page = TopicPage().paginate_queryset(topics, self.request, view=self)
+        topics_ser = TopicSer(instance=topics_page, many=True).data
+        respon['data']['tuijian0'] = topics_ser[0]
+        respon['data']['tuijian'] = topics_ser[1:5]
         return Response(respon, template_name='gbook.html')

@@ -15,6 +15,8 @@
   <script src="/static/js/xcConfirm.js"></script>
   <script src="/static/js/wangEditor.js"></script>
   <link rel="stylesheet" href="/static/css/comments.css">
+  {% block css %}
+  {% endblock %}  
 </head>
 <body>
 
@@ -39,11 +41,11 @@
 {#              {% endfor %}#}
           </ul>
         </li>
-        <li><a href="/photo/">我的相册</a>
-        </li>
-        <li><a href="/time/">时间轴</a> </li>
-        <li><a href="/m/gbook/">留言</a> </li>
-        <li><a href="/about/">关于我</a> </li>
+          <li><a href="/m/gbook/">留言</a> </li>
+          <li><a href="/photo/">特效</a>
+          </li>
+          <li><a href="/time/">看烟花</a> </li>
+        <li><a href="/about/">暂未开发</a> </li>
         <li><a href="/release/">发表博客</a></li>
       </nav>
     </div>
