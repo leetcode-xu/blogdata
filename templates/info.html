@@ -168,15 +168,15 @@
 								<!--先遍历父级评论-->
                             {% for father in data.one %}
 
-                                <ol class="commentlist">
+                                <ol class="commentlist" class="parent" value="{{ father.id }}">
                                     <li>
-                                        <div class="top"><a href='javascript:void(0);'  class='url' value="{{ father.users.0.id }}">{{ father.users.0.username }}</a>
+                                        <div class="top" value="{{ father.id }}"><a href='javascript:void(0);'  class='url' value="{{ father.user1.id }}">{{ father.user1.username }}</a>
                                             <span class="time"> @
                                                 <a href="#" title="">{{ father.time }}</a>
                                                 <a href="#" class="replyComment">回复</a>
                                             </span>
                                         </div>
-                                        <div><img alt='' src='{{ father.users.0.avatar }}' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' /></div>
+                                        <div><img alt='' src='{{ father.user1.avatar }}' class='commentAvatar avatar-32 commentPhoto' height='32' width='32' /></div>
                                         <div class="body">
                                             <p>{{ father.message }}</p>
                                         </div>
@@ -185,13 +185,13 @@
 								<!--如果父级评论有子评论，就把子评论输出-->
                                     <li>
                                         <div class="reply">
-                                            <div class="top">
-                                                <a href="javascript:void(0);" class="url" value="{{ child.users.0.id }}">{{ child.users.0.username }}</a>
+                                            <div class="top" value="{{ father.id }}">
+                                                <a href="javascript:void(0);" class="url" value="{{ child.user1.id }}">{{ child.user1.username }}</a>
                                                 <span class="time">
-                                                    @<a href="javascript:void(0);" class="url" value="{{ child.users.1.id }}">{{ child.users.1.username }}</a> &nbsp;&nbsp;<a href="#" title="">{{ child.time }}</a>
+                                                    @<a href="javascript:void(0);" class="url" value="{{ child.user2.id }}">{{ child.user2.username }}</a> &nbsp;&nbsp;<a href="#" title="">{{ child.time }}</a>
                                                 </span>
                                             </div>
-                                            <div><img alt="" src="{{ child.user.0.avatar }}" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
+                                            <div><img alt="" src="{{ child.user1.avatar }}" class="commentAvatar avatar-32 commentPhoto" height="32" width="32"></div>
                                             <div class="body">{{ child.message }}</div>
                                         </div>
                                     </li>
@@ -257,8 +257,9 @@
 									<br>
 									<p>
 										<input id="id_article" name="article" type="hidden" value="">
+										<input id="root" name="root" type="hidden" value="">
 										<input id="topic_id" name="topic_id" type="hidden" value="{{ data.topic.id }}">
-										<input id="user_id" name="user_id" type="hidden" value="{{ data.request.user.id }}">
+										<input id="user2" name="user2" type="hidden" value="">
 										<input name="submit" type="submit" id="submit" tabindex="5" value="提交" class="button" onclick="return getcontent();"/>
 									</p>
 								</form>
@@ -427,6 +428,8 @@
         })
 
         $('.url').click(function () {
+            $("#user2").val($(this).attr("value"));
+            $("#root").val($(this).parent(".top").attr('value'));
             editor.txt.text('@' + $(this).html() + '&nbsp;');
 
         });

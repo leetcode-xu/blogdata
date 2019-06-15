@@ -15,7 +15,7 @@ class TopicXadmin:
 
 
 class ReplyXadmin:
-    list_display = ['topic', 'message', 'users']
+    list_display = ['topic', 'message', 'user1', 'user2', 'root']
 
 
 class BlogTypeXadmin:

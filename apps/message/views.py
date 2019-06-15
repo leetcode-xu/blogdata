@@ -30,7 +30,7 @@ class RootSer(ModelSerializer):
 
 class MsgSer(ModelSerializer):
     create_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
-    root_comment = RootSer(many=True, write_only=True)
+    root_comment = RootSer(many=True)
 
     class Meta:
         model = Message
@@ -66,7 +66,7 @@ class MsgTree:
 
     def get_dispose(self):
         self.one = []
-        self.two= []
+        self.two = []
         for msg in self.msg_ser:
             if not msg['root']:
                 self.one.append(msg)
@@ -144,3 +144,4 @@ class GbookView(APIView):
         respon['data']['tuijian0'] = topics_ser[0]
         respon['data']['tuijian'] = topics_ser[1:5]
         return Response(respon, template_name='gbook.html')
+        # return Response(respon)

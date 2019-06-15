@@ -66,7 +66,7 @@
                                 {% for two in one.root_comment %}
                                     <li class="parent">
                                         <div class="reply">
-                                            <div class="top" value="{{ two.id }}">
+                                            <div class="top" value="{{ one.id }}">
                                                 <a href="#submit"  class="two" value="{{ two.user1.id }}">{{ two.user1.username }}</a>
                                                 <span class="time">
                                                     @{{ two.user2.username }}&nbsp;<a href="#" title="">{{ two.create_time }}</a>

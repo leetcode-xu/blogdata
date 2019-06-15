@@ -10,7 +10,6 @@ from rest_framework.renderers import JSONRenderer
 import random
 import re
 
-import csv
 # Create your views here.
 
 
@@ -127,20 +126,19 @@ class AddTopic(APIView):
 class Reply_Topic:
 
     def __init__(self, topic_id):
-        reply_obj = Reply.objects.filter(topic=topic_id).all()
-        reply_ser = ReplySer(instance=reply_obj, many=True)
-        self.reply_ser = sorted(reply_ser.data, key=lambda x: x['time'])
+        self.reply_obj = Reply.objects.filter(topic=topic_id).all().order_by('time')
+        self.reply_ser = ReplySer(instance=self.reply_obj, many=True).data
         self.reply_one = []
         reply_two = []
         for i in self.reply_ser:
-            if len(i.get('users', [])) == 1:
+            if not i['root']:
                 self.reply_one.append(i)
             else:
                 reply_two.append(i)
         for one in self.reply_one:
             one['two'] = []
             for two in reply_two:
-                if one['users'][0] in two['users']:
+                if two['root']['id'] == one['id']:
                     one['two'].append(two)
                     reply_two.remove(two)
 
@@ -201,21 +199,21 @@ class ReplyAdd(APIView):
             topic_id = request.POST.get('topic_id', '')
             topic_obj = Topic.objects.get(id=topic_id)
             message = request.POST.get('article', '')
-            user_two = message.split()[0]
-            print(user_two,'sdf'*7)
-            if user_two[0] == '@':
-                user_two = User.objects.filter(username=user_two[1:]).first()
-                print(user_two.username)
-            else:
-                user_two = None
+            user2 = request.POST.get('user2', '')
+            root = request.POST.get('root', '')
             reply_obj = Reply()
-            reply_obj.message = ' '.join(message.split()[1:])
+            reply_obj.message = message
             reply_obj.topic = topic_obj
+            reply_obj.user1 = request.user
+            if user2:
+                user2 = User.objects.filter(id=int(user2)).first()
+                reply_obj.user2 = user2
+            if root:
+                root = Reply.objects.filter(id=int(root)).first()
+                reply_obj.root = root
             reply_obj.save()
-            reply_obj.users.add(request.user)
-            if user_two:
-                reply_obj.users.add(user_two)
         except Exception as e:
+            print(str(e))
             respon['message'] = 'fail'
             respon['data']['error'] = str(e)
             respon['code'] = 10014
