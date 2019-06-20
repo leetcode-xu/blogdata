@@ -360,3 +360,8 @@ class CeShi(APIView):
 
     def get(self, request):
         return Response(Reply_Topic(12).reply_one)
+
+
+class JymView(APIView):
+    def get(self, request):
+        return Response(template_name='jym.html')

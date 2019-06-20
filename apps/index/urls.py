@@ -22,4 +22,5 @@ urlpatterns = [
     path('time/', TimeView.as_view()),
     path('photo/', PhotoView.as_view()),
     path('release/', ReleaseView.as_view()),
+    path('jym/',JymView.as_view()),
 ]

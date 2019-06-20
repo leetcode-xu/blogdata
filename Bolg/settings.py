@@ -93,10 +93,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blogdata',
-        'HOST':'localhost',
+        'HOST':'39.96.194.42',
         'POST':3306,
         'USER':'root',
-        'PASSWORD':'152462',
+        'PASSWORD':'bamboo',
     }
 }
 
